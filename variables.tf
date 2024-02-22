@@ -14,7 +14,7 @@ variable "where_we_are_at" {
 variable "resource_group_name" {
   description = "Name of resource group to deploy to."
   type        = string
-  default     = "vm-rg"
+  default     = "rg-vm-demo"
 }
 
 variable "Location" {
