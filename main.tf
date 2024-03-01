@@ -39,6 +39,17 @@ resource "azurerm_network_interface" "vnic" {
   }
 }
 
+data "template_cloudinit_config" "config" {
+  gzip = true
+  base64_encode = true
+
+  part {
+    content_type = "text/cloud-config"
+    content = "packages: ['jq']"
+  }
+  
+}
+
 resource "azurerm_linux_virtual_machine" "vm" {
   name                = "terrastuff-vm"
   location            = azurerm_resource_group.rg.location
@@ -67,6 +78,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   identity {
     type = "SystemAssigned"
   }  
+
+  custom_data = data.template_cloudinit_config.config.rendered
 }
 
 resource "azurerm_network_security_group" "nsg" {
